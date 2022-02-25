@@ -1,0 +1,25 @@
+<div class='mycomponent'>
+  <div>
+    Value:
+    {{this.value}}
+  </div>
+  <div>
+    <button type='button' {{on 'click' this.toggle}}>Toggle</button>
+  </div>
+</div>
+
+<div class='mycomponent'>
+  <div>
+    Text Value:
+    {{this.text}}
+  </div>
+  <div>
+    <label for="mytext">Edit:</label>
+    <input
+      id="mytext"
+      type='text'
+      {{on 'input' this.update}}
+      value={{this.text}}
+      />
+  </div>
+</div>
