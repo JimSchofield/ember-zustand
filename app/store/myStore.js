@@ -11,7 +11,7 @@ export const myStore = create(
         };
       }),
     anotherProp: 'foobar',
-    setAnotherProp: (event) => set({ anotherProp: event.target.value }),
+    setAnotherProp: (value) => set({ anotherProp: value }),
   }))
 );
 

@@ -1,34 +1,21 @@
 import Component from '@glimmer/component';
 import { myStore, doToggle, doSetAnotherProp } from '../store/myStore';
-import { tracked } from '@glimmer/tracking';
 import zustand from '../utils/wrap';
 
-@zustand({ store: myStore })
+@zustand({
+  store: myStore,
+  keys: ['anotherProp', 'toggle'],
+})
 export default class MyComponent extends Component {
-  store = myStore;
+  doToggle = doToggle;
+  update = (event) => doSetAnotherProp(event.target.value);
 
-  @tracked value;
-  @tracked text;
-
-  constructor() {
-    super(...arguments);
-
-    myStore.subscribe(
-      (state) => state.toggle,
-      (state) => {
-        this.value = state;
-      }
-    );
-
-    myStore.subscribe(
-      (state) => state.anotherProp,
-      (state) => {
-        console.log(state);
-        this.text = state;
-      }
-    );
+  get textLength() {
+    return this.anotherProp.length;
   }
 
-  toggle = doToggle;
-  update = (event) => doSetAnotherProp(event);
+  clear = () => {
+    this.zstore.setAnotherProp('');
+    this.zstore.toggleAction(false);
+  };
 }

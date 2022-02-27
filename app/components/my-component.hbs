@@ -1,17 +1,17 @@
 <div class='mycomponent'>
   <div>
     Value:
-    {{this.value}}
+    {{this.toggle}}
   </div>
   <div>
-    <button type='button' {{on 'click' this.toggle}}>Toggle</button>
+    <button type='button' {{on 'click' this.doToggle}}>Toggle</button>
   </div>
 </div>
 
 <div class='mycomponent'>
   <div>
     Text Value:
-    {{this.text}}
+    {{this.anotherProp}}
   </div>
   <div>
     <label for="mytext">Edit:</label>
@@ -19,7 +19,13 @@
       id="mytext"
       type='text'
       {{on 'input' this.update}}
-      value={{this.text}}
+      value={{this.anotherProp}}
       />
   </div>
+    Length of string:
+    {{this.textLength}}
+  <div>
+  </div>
 </div>
+
+<button type="button" {{on "click" this.clear}}>Clear</button>
