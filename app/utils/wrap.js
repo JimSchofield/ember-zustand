@@ -1,19 +1,28 @@
-import { notifyPropertyChange, defineProperty } from '@ember/object';
 import { assert } from '@ember/debug';
+import {
+  createStorage,
+  getValue,
+  setValue,
+} from 'ember-tracked-storage-polyfill';
 
 export default function zustand(config) {
   const { store, keys } = config;
 
+  // create a record of storages based off of the store
+  const storageObj = Object.entries(store.getState()).reduce(
+    (acc, [key, value]) => ({
+      ...acc,
+      [key]: createStorage(value),
+    }),
+    {}
+  );
+
   return function decoratorFn(Wrapped) {
     Wrapped.prototype._zstore = store;
 
-    Object.defineProperty(Wrapped.prototype, 'zstore', {
-      get() {
-        return store.getState();
-      },
-    });
-
     class WithStore extends Wrapped {
+      #_store = storageObj;
+
       constructor() {
         super(...arguments);
 
@@ -24,7 +33,7 @@ export default function zustand(config) {
             enumerable: true,
             configurable: true,
             get() {
-              return this.zstore[key];
+              return getValue(this.#_store[key]);
             },
             set() {
               assert(
@@ -37,8 +46,8 @@ export default function zustand(config) {
         keys.forEach((key) => {
           const unsub = this._zstore.subscribe(
             (state) => state[key],
-            () => {
-              notifyPropertyChange(this, key);
+            (value) => {
+              setValue(this.#_store[key], value);
             }
           );
 

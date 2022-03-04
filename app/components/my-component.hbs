@@ -1,3 +1,24 @@
+<div class="mycomponent">
+  <div>
+    <label for="mytext">Add Ingredient:</label>
+    <input
+      id="mytext"
+      type='text'
+      {{on "input" this.modifyTempIngredient}}
+      value={{this.tempIngredient}}
+      />
+      <button type="button" {{on "click" this.add}}>Add</button>
+  </div>
+  <ul>
+    {{#each this.ingredients as |item index|}}
+      <MyComponent::Item @index={{index}}>
+        {{item}}
+      </MyComponent::Item>
+    {{/each}}
+  </ul>
+</div>
+
+
 <div class='mycomponent'>
   <div>
     Value:
@@ -8,6 +29,7 @@
   </div>
 </div>
 
+{{#if this.toggle}}
 <div class='mycomponent'>
   <div>
     Text Value:
@@ -22,10 +44,9 @@
       value={{this.anotherProp}}
       />
   </div>
+  <div>
     Length of string:
     {{this.textLength}}
-  <div>
   </div>
 </div>
-
-<button type="button" {{on "click" this.clear}}>Clear</button>
+{{/if}}

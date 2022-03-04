@@ -4,8 +4,6 @@ body {
 
 .mycomponent {
   margin: 4em auto;
-  width: 200px;
-  height: 200px;
   border: 1px solid orange;
   display: flex;
   justify-content: center;
